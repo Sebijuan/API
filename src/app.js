@@ -1,4 +1,5 @@
 require('dotenv').config();
+console.log('MONGO_URI:', process.env.MONGO_URI);
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -7,22 +8,20 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-console.log('MONGO_URI:', process.env.MONGO_URI); // Add this line to debug
-
 const mongoURI = process.env.MONGO_URI;
 if (!mongoURI) {
   throw new Error('MONGO_URI environment variable is not defined');
 }
 
-// Conectar a MongoDB
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('✅ Conexión a MongoDB establecida'))
-  .catch(err => {
-    console.error('❌ Error de conexión:', err);
-    process.exit(1); // Exit the process if the connection fails
-  });
+// Conectar a MongoDB Compose
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('✅ Conexión a MongoDB establecida'))
+.catch(err => console.error('❌ Error de conexión:', err));
 
-// Esquema y modelo de usuario
+// Esquema de usuario
 const usuarioSchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -30,14 +29,12 @@ const usuarioSchema = new mongoose.Schema({
 
 const Usuario = mongoose.model('Usuario', usuarioSchema);
 
-// Rutas para la API
+// Rutas
 app.get('/api/users', async (req, res) => {
   try {
-    console.log('Fetching users from database'); // Add logging
     const usuarios = await Usuario.find();
     res.json(usuarios);
   } catch (err) {
-    console.error('Error fetching users:', err); // Add logging
     res.status(500).json({ error: 'Error al obtener usuarios' });
   }
 });
