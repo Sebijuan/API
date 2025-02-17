@@ -6,7 +6,13 @@ const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 app.use(express.json()); // Ensure this middleware is set up
-app.use(cors());
+
+// Configure CORS to allow requests from your frontend's origin
+const corsOptions = {
+  origin: 'https://despliegue-prueba-kohl.vercel.app',
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
 const mongoURI = process.env.MONGO_URI;
 if (!mongoURI) {
