@@ -12,6 +12,9 @@ exports.getAllUsers = async (req, res) => {
 exports.createUser = async (req, res) => {
     const { name, email, password } = req.body;
 
+    // Log the request body
+    console.log('Request body:', req.body);
+
     // Validate request body
     if (!name || !email || !password) {
         return res.status(400).json({ message: "Todos los campos son obligatorios" });

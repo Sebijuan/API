@@ -23,4 +23,9 @@ mongoose.connect(mongoURI, {
 // Use the user routes
 app.use('/api', userRoutes);
 
+// Add a route to check if the server is running
+app.get('/', (req, res) => {
+  res.send('Server is running');
+});
+
 module.exports = app;
