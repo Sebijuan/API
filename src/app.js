@@ -1,5 +1,4 @@
 require('dotenv').config();
-console.log('MONGO_URI:', process.env.MONGO_URI);
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -13,15 +12,12 @@ if (!mongoURI) {
   throw new Error('MONGO_URI environment variable is not defined');
 }
 
-// Conectar a MongoDB Atlas
-mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('✅ Conexión a MongoDB establecida'))
-.catch(err => console.error('❌ Error de conexión:', err));
+// Conectar a MongoDB
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('✅ Conexión a MongoDB establecida'))
+  .catch(err => console.error('❌ Error de conexión:', err));
 
-// Esquema de usuario
+// Esquema y modelo de usuario
 const usuarioSchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -29,7 +25,7 @@ const usuarioSchema = new mongoose.Schema({
 
 const Usuario = mongoose.model('Usuario', usuarioSchema);
 
-// Rutas
+// Rutas para la API
 app.get('/api/users', async (req, res) => {
   try {
     const usuarios = await Usuario.find();
