@@ -7,12 +7,17 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+const mongoURI = process.env.MONGO_URI;
+if (!mongoURI) {
+  throw new Error('MONGO_URI environment variable is not defined');
+}
+
 // Conectar a MongoDB Atlas
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log('✅ Conectado a MongoDB Atlas'))
+.then(() => console.log('✅ Conexión a MongoDB establecida'))
 .catch(err => console.error('❌ Error de conexión:', err));
 
 // Esquema de usuario
