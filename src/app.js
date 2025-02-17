@@ -7,6 +7,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+console.log('MONGO_URI:', process.env.MONGO_URI); // Add this line to debug
+
 const mongoURI = process.env.MONGO_URI;
 if (!mongoURI) {
   throw new Error('MONGO_URI environment variable is not defined');
