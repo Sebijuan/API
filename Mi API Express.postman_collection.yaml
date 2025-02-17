@@ -1,0 +1,81 @@
+info:
+  _postman_id: "12345678-abcd-efgh-ijkl-9876543210mn"
+  name: "Mi API Express"
+  schema: "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+item:
+  - name: "Obtener todos los usuarios"
+    request:
+      method: "GET"
+      header: []
+      url:
+        raw: "http://localhost:3000/api/users"
+        protocol: "http"
+        host:
+          - "localhost"
+        port: "3000"
+        path:
+          - "api"
+          - "users"
+    response: []
+  - name: "Crear un usuario"
+    request:
+      method: "POST"
+      header:
+        - key: "Content-Type"
+          value: "application/json"
+      body:
+        mode: "raw"
+        raw: |
+          {
+            "name": "Juan Pérez",
+            "email": "juan@example.com"
+          }
+      url:
+        raw: "http://localhost:3000/api/users"
+        protocol: "http"
+        host:
+          - "localhost"
+        port: "3000"
+        path:
+          - "api"
+          - "users"
+    response: []
+  - name: "Actualizar un usuario"
+    request:
+      method: "PUT"
+      header:
+        - key: "Content-Type"
+          value: "application/json"
+      body:
+        mode: "raw"
+        raw: |
+          {
+            "name": "Juan Pérez Modificado",
+            "email": "juanmodificado@example.com"
+          }
+      url:
+        raw: "http://localhost:3000/api/users/1"
+        protocol: "http"
+        host:
+          - "localhost"
+        port: "3000"
+        path:
+          - "api"
+          - "users"
+          - "1"
+    response: []
+  - name: "Eliminar un usuario"
+    request:
+      method: "DELETE"
+      header: []
+      url:
+        raw: "http://localhost:3000/api/users/1"
+        protocol: "http"
+        host:
+          - "localhost"
+        port: "3000"
+        path:
+          - "api"
+          - "users"
+          - "1"
+    response: []
