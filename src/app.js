@@ -23,7 +23,7 @@ if (!mongoURI) {
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 5000, // Increase timeout to 5 seconds
+  serverSelectionTimeoutMS: 20000, // Increase timeout to 5 seconds
   socketTimeoutMS: 45000, // Increase socket timeout to 45 seconds
 })
 .then(() => console.log('✅ Conexión a MongoDB establecida'))
@@ -35,6 +35,12 @@ app.use('/api', userRoutes);
 // Add a route to check if the server is running
 app.get('/', (req, res) => {
   res.send('Server is running');
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  res.status(500).json({ message: 'Internal Server Error' });
 });
 
 module.exports = app;

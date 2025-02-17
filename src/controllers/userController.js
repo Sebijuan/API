@@ -17,6 +17,7 @@ exports.createUser = async (req, res) => {
 
     // Validate request body
     if (!name || !email || !password) {
+        console.error('Validation error: Missing required fields');
         return res.status(400).json({ message: "Todos los campos son obligatorios" });
     }
 
@@ -26,6 +27,7 @@ exports.createUser = async (req, res) => {
         const savedUser = await newUser.save();
         res.status(201).json(savedUser);
     } catch (error) {
+        console.error('Error saving user:', error.message);
         res.status(400).json({ message: error.message });
     }
 };
