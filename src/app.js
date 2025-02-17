@@ -21,7 +21,10 @@ if (!mongoURI) {
 
 // Conectar a MongoDB Compose
 mongoose.connect(mongoURI, {
-  // Removed deprecated options
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000, // Increase timeout to 5 seconds
+  socketTimeoutMS: 45000, // Increase socket timeout to 45 seconds
 })
 .then(() => console.log('✅ Conexión a MongoDB establecida'))
 .catch(err => console.error('❌ Error de conexión:', err));
