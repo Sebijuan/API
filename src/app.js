@@ -5,7 +5,7 @@ const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
 
 const app = express();
-app.use(express.json());
+app.use(express.json()); // Ensure this middleware is set up
 app.use(cors());
 
 const mongoURI = process.env.MONGO_URI;
