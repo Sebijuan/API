@@ -1,31 +1,55 @@
-let users = []; // Array en memoria para almacenar usuarios
+const User = require('../models/userModel');
 
-exports.getAllUsers = (req, res) => {
-    res.json(users);
+exports.getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find();
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
-exports.createUser = (req, res) => {
-    const { name, email } = req.body;
-    const newUser = { id: users.length + 1, name, email };
-    users.push(newUser);
-    res.status(201).json(newUser);
+exports.createUser = async (req, res) => {
+    const { name, email, password } = req.body;
+    const newUser = new User({ name, email, password });
+
+    try {
+        const savedUser = await newUser.save();
+        res.status(201).json(savedUser);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
 };
 
-exports.updateUser = (req, res) => {
+exports.updateUser = async (req, res) => {
     const { id } = req.params;
-    const { name, email } = req.body;
-    const user = users.find(u => u.id === parseInt(id));
+    const { name, email, password } = req.body;
 
-    if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+    try {
+        const user = await User.findById(id);
+        if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
 
-    user.name = name || user.name;
-    user.email = email || user.email;
-    
-    res.json(user);
+        user.name = name || user.name;
+        user.email = email || user.email;
+        user.password = password || user.password;
+
+        const updatedUser = await user.save();
+        res.json(updatedUser);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
 };
 
-exports.deleteUser = (req, res) => {
+exports.deleteUser = async (req, res) => {
     const { id } = req.params;
-    users = users.filter(u => u.id !== parseInt(id));
-    res.json({ message: "Usuario eliminado" });
+
+    try {
+        const user = await User.findById(id);
+        if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
+
+        await user.remove();
+        res.json({ message: "Usuario eliminado" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
