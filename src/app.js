@@ -23,7 +23,7 @@ if (!mongoURI) {
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 20000, // Increase timeout to 5 seconds
+  serverSelectionTimeoutMS: 20000, // Increase timeout to 20 seconds
   socketTimeoutMS: 45000, // Increase socket timeout to 45 seconds
 })
 .then(() => console.log('✅ Conexión a MongoDB establecida'))
