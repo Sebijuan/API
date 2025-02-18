@@ -25,7 +25,16 @@ mongoose.connect(mongoURI, {
   socketTimeoutMS: 45000, // Increase socket timeout to 45 seconds
 })
 .then(() => console.log('✅ Conexión a MongoDB establecida'))
-.catch(err => console.error('❌ Error de conexión:', err));
+.catch(err => {
+  console.error('❌ Error de conexión:', err);
+  process.exit(1); // Exit the process if the connection fails
+});
+
+// Log incoming requests
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
 
 // Use the user routes
 app.use('/api', userRoutes);
